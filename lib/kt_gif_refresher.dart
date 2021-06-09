@@ -103,7 +103,7 @@ class _KTGifRefresherState extends State<KTGifRefresher>
         scale: _scaleController,
         child: Image.asset(
           imageName,
-          package: 'flt_common_views',
+          package: 'kt_gif_refresher',
           filterQuality: FilterQuality.high,
           width: 40,
           height: 40,
@@ -122,7 +122,7 @@ class _KTGifRefresherState extends State<KTGifRefresher>
     }
     return Image.asset(
       imageName,
-      package: 'flt_common_views',
+      package: 'kt_gif_refresher',
       filterQuality: FilterQuality.high,
       width: 40,
       height: 40,

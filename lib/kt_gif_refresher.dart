@@ -61,7 +61,9 @@ class _KTGifRefresherState extends State<KTGifRefresher>
     widget.controller.headerMode?.addListener(() {
       if (widget.controller.headerStatus == RefreshStatus.idle) {
         _scaleController.value = 0.0;
-      } else if (widget.controller.headerStatus == RefreshStatus.refreshing) {}
+      } else if (widget.controller.headerStatus == RefreshStatus.refreshing) {
+        _scaleController.value = 1.0;
+      }
     });
     if (widget.scrollController != null) {
       widget.scrollController?.addListener(_listener);

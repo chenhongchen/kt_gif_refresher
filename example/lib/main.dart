@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:kt_gif_refresher/kt_gif_refresher.dart';
 
 void main() {
@@ -21,7 +19,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _scrollController.addListener(() {
-      print('22222');
     });
   }
 
@@ -31,6 +28,24 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Plugin example app'),
+          actions: [
+            GestureDetector(
+              onTap: (){
+                _scrollController.jumpTo(0);
+                _refreshController.requestRefresh(needMove: true);
+              },
+              child: Container(
+                color: Colors.transparent,
+                width: 55,
+                height: 49,
+                alignment: Alignment.center,
+                child: Text(
+                  'Top',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+              ),
+            )
+          ],
         ),
         body: KTGifRefresher(
           controller: _refreshController,

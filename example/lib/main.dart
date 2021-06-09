@@ -17,10 +17,12 @@ class _MyAppState extends State<MyApp> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   ScrollController _scrollController = ScrollController();
-  ScrollController _refreshScrollController = ScrollController();
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(() {
+      print('22222');
+    });
   }
 
   @override
@@ -32,7 +34,7 @@ class _MyAppState extends State<MyApp> {
         ),
         body: KTGifRefresher(
           controller: _refreshController,
-          scrollController: _refreshScrollController,
+          scrollController: _scrollController,
           enablePullDown: true,
           enablePullUp: true,
           onRefresh: () async {

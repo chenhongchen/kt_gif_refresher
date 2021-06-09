@@ -53,7 +53,6 @@ class KTGifRefresher extends StatefulWidget {
 
 class _KTGifRefresherState extends State<KTGifRefresher>
     with TickerProviderStateMixin {
-  ScrollController? _scrollController;
   late AnimationController _scaleController =
       AnimationController(value: 0.0, vsync: this, upperBound: 1.0);
 
@@ -65,27 +64,20 @@ class _KTGifRefresherState extends State<KTGifRefresher>
       } else if (widget.controller.headerStatus == RefreshStatus.refreshing) {}
     });
     if (widget.scrollController != null) {
-      _scrollController = widget.scrollController;
-    } else {
-      _scrollController = ScrollController();
+      widget.scrollController?.addListener(_listener);
     }
-    _scrollController?.addListener(_listener);
     super.initState();
   }
 
   _listener() {
-    double offset = _scrollController?.offset ?? 0;
+    double offset = widget.scrollController?.offset ?? 0;
     _onOffsetChange(offset < 0, offset.abs());
-    print('${_scrollController?.offset}');
   }
 
   @override
   void dispose() {
     _scaleController.dispose();
-    _scrollController?.removeListener(_listener);
-    if (widget.scrollController != _scrollController) {
-      _scrollController?.dispose();
-    }
+    widget.scrollController?.removeListener(_listener);
     super.dispose();
   }
 
@@ -93,7 +85,6 @@ class _KTGifRefresherState extends State<KTGifRefresher>
   Widget build(BuildContext context) {
     return SmartRefresher(
       controller: widget.controller,
-      scrollController: _scrollController,
       // onOffsetChange: _onOffsetChange,
       onRefresh: widget.onRefresh,
       onLoading: widget.onLoading,

@@ -41,7 +41,7 @@ class _MyAppState extends State<MyApp> {
           },
           onLoading: () async {
             await Future.delayed(Duration(seconds: 1));
-            _refreshController.refreshCompleted();
+            _refreshController.loadComplete();
           },
           child: ListView.builder(
               controller: _scrollController,

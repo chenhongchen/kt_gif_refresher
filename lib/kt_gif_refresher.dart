@@ -53,6 +53,7 @@ class KTGifRefresher extends StatefulWidget {
 
 class _KTGifRefresherState extends State<KTGifRefresher>
     with TickerProviderStateMixin {
+  ScrollController? _scrollController;
   late AnimationController _scaleController =
       AnimationController(value: 0.0, vsync: this, upperBound: 1.0);
 
@@ -63,12 +64,28 @@ class _KTGifRefresherState extends State<KTGifRefresher>
         _scaleController.value = 0.0;
       } else if (widget.controller.headerStatus == RefreshStatus.refreshing) {}
     });
+    if (widget.scrollController != null) {
+      _scrollController = widget.scrollController;
+    } else {
+      _scrollController = ScrollController();
+    }
+    _scrollController?.addListener(_listener);
     super.initState();
+  }
+
+  _listener() {
+    double offset = _scrollController?.offset ?? 0;
+    _onOffsetChange(offset < 0, offset.abs());
+    print('${_scrollController?.offset}');
   }
 
   @override
   void dispose() {
     _scaleController.dispose();
+    _scrollController?.removeListener(_listener);
+    if (widget.scrollController != _scrollController) {
+      _scrollController?.dispose();
+    }
     super.dispose();
   }
 
@@ -76,7 +93,7 @@ class _KTGifRefresherState extends State<KTGifRefresher>
   Widget build(BuildContext context) {
     return SmartRefresher(
       controller: widget.controller,
-      scrollController: widget.scrollController,
+      scrollController: _scrollController,
       // onOffsetChange: _onOffsetChange,
       onRefresh: widget.onRefresh,
       onLoading: widget.onLoading,
@@ -107,7 +124,7 @@ class _KTGifRefresherState extends State<KTGifRefresher>
         child: Image.asset(
           imageName,
           package: 'kt_gif_refresher',
-          filterQuality: FilterQuality.high,
+          filterQuality: FilterQuality.medium,
           width: 40,
           height: 40,
           color: widget.color,
@@ -126,7 +143,7 @@ class _KTGifRefresherState extends State<KTGifRefresher>
     return Image.asset(
       imageName,
       package: 'kt_gif_refresher',
-      filterQuality: FilterQuality.high,
+      filterQuality: FilterQuality.medium,
       width: 40,
       height: 40,
       color: widget.color,

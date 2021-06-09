@@ -5,8 +5,8 @@ export 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class KTGifRefresher extends StatefulWidget {
   KTGifRefresher(
-      {Key key,
-      @required this.controller,
+      {Key? key,
+      required this.controller,
       this.child,
       this.enablePullDown: true,
       this.enablePullUp: false,
@@ -28,7 +28,7 @@ class KTGifRefresher extends StatefulWidget {
   }
 
   //indicate your listView
-  final Widget child;
+  final Widget? child;
 
   // This bool will affect whether or not to have the function of drop-up load.
   final bool enablePullUp;
@@ -40,23 +40,22 @@ class KTGifRefresher extends StatefulWidget {
   final bool enablePullDown;
 
   // upper and downer callback when you drag out of the distance
-  final Function onRefresh, onLoading, onTwoLevel;
+  final VoidCallback? onRefresh, onLoading, onTwoLevel;
 
   //controll inner state
   final RefreshController controller;
 
-  Color color;
+  Color? color;
 }
 
 class _KTGifRefresherState extends State<KTGifRefresher>
     with TickerProviderStateMixin {
-  AnimationController _scaleController;
+  late AnimationController _scaleController =
+      AnimationController(value: 0.0, vsync: this, upperBound: 1.0);
 
   @override
   void initState() {
-    _scaleController =
-        AnimationController(value: 0.0, vsync: this, upperBound: 1.0);
-    widget.controller.headerMode.addListener(() {
+    widget.controller.headerMode?.addListener(() {
       if (widget.controller.headerStatus == RefreshStatus.idle) {
         _scaleController.value = 0.0;
       } else if (widget.controller.headerStatus == RefreshStatus.refreshing) {}
@@ -74,7 +73,7 @@ class _KTGifRefresherState extends State<KTGifRefresher>
   Widget build(BuildContext context) {
     return SmartRefresher(
       controller: widget.controller,
-      onOffsetChange: _onOffsetChange,
+      // onOffsetChange: _onOffsetChange,
       onRefresh: widget.onRefresh,
       onLoading: widget.onLoading,
       header: CustomHeader(
@@ -91,7 +90,7 @@ class _KTGifRefresherState extends State<KTGifRefresher>
     );
   }
 
-  Widget _headerCreate(BuildContext context, RefreshStatus mode) {
+  Widget _headerCreate(BuildContext context, RefreshStatus? mode) {
     String imageName;
     if (mode == RefreshStatus.refreshing) {
       imageName = "images/list_load.gif";
@@ -113,7 +112,7 @@ class _KTGifRefresherState extends State<KTGifRefresher>
     );
   }
 
-  Widget _footerCreate(BuildContext context, LoadStatus mode) {
+  Widget _footerCreate(BuildContext context, LoadStatus? mode) {
     String imageName;
     if (mode == LoadStatus.loading) {
       imageName = "images/list_load.gif";

@@ -7,6 +7,7 @@ class KTGifRefresher extends StatefulWidget {
   KTGifRefresher(
       {Key? key,
       required this.controller,
+      this.scrollController,
       this.child,
       this.enablePullDown: true,
       this.enablePullUp: false,
@@ -45,6 +46,8 @@ class KTGifRefresher extends StatefulWidget {
   //controll inner state
   final RefreshController controller;
 
+  final ScrollController? scrollController;
+
   Color? color;
 }
 
@@ -73,6 +76,7 @@ class _KTGifRefresherState extends State<KTGifRefresher>
   Widget build(BuildContext context) {
     return SmartRefresher(
       controller: widget.controller,
+      scrollController: widget.scrollController,
       // onOffsetChange: _onOffsetChange,
       onRefresh: widget.onRefresh,
       onLoading: widget.onLoading,

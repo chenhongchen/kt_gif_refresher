@@ -53,11 +53,12 @@ class KTGifRefresher extends StatefulWidget {
 
 class _KTGifRefresherState extends State<KTGifRefresher>
     with TickerProviderStateMixin {
-  late AnimationController _scaleController =
-      AnimationController(value: 0.0, vsync: this, upperBound: 1.0);
+  late AnimationController _scaleController;
 
   @override
   void initState() {
+    _scaleController =
+        AnimationController(value: 0.0, vsync: this, upperBound: 1.0);
     widget.controller.headerMode?.addListener(() {
       if (widget.controller.headerStatus == RefreshStatus.idle) {
         _scaleController.value = 0.0;
@@ -78,8 +79,8 @@ class _KTGifRefresherState extends State<KTGifRefresher>
 
   @override
   void dispose() {
-    _scaleController.dispose();
     widget.scrollController?.removeListener(_listener);
+    _scaleController.dispose();
     super.dispose();
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:kt_gif_refresher/kt_gif_refresher.dart';
+import 'package:kt_gif_refresher_example/second_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,11 +16,11 @@ class _MyAppState extends State<MyApp> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(() {
-    });
+    _scrollController.addListener(() {});
   }
 
   @override
@@ -30,7 +31,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
           actions: [
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 _scrollController.jumpTo(0);
                 _refreshController.requestRefresh(needMove: true);
               },
@@ -64,17 +65,26 @@ class _MyAppState extends State<MyApp> {
               controller: _scrollController,
               itemCount: 50,
               itemBuilder: (context, index) {
-                return Stack(
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      child: Text('$index'),
-                    ),
-                    Container(
-                      height: 1,
-                      color: Colors.grey,
-                    ),
-                  ],
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (ctx) => SecondPage(),
+                    ));
+                  },
+                  child: Column(
+                    children: [
+                      Container(
+                        color: Colors.transparent,
+                        height: 50,
+                        alignment: Alignment.center,
+                        child: Text('$index'),
+                      ),
+                      Container(
+                        height: 1,
+                        color: Colors.grey,
+                      ),
+                    ],
+                  ),
                 );
               }),
         ),

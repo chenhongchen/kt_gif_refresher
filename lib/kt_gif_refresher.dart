@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-export 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+export 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class KTGifRefresher extends StatefulWidget {
   KTGifRefresher(
@@ -15,13 +15,9 @@ class KTGifRefresher extends StatefulWidget {
       this.onRefresh,
       this.onLoading,
       this.onTwoLevel,
-      this.color})
-      : assert(controller != null),
-        super(key: key) {
-    if (color == null) {
-      color = Color(0xFF1F93EA);
-    }
-  }
+      Color? color})
+      : this.color = color ?? Color(0xFF1F93EA),
+        super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -48,7 +44,7 @@ class KTGifRefresher extends StatefulWidget {
 
   final ScrollController? scrollController;
 
-  Color? color;
+  final Color color;
 }
 
 class _KTGifRefresherState extends State<KTGifRefresher>

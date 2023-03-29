@@ -55,27 +55,30 @@ class _KTGifRefresherState extends State<KTGifRefresher>
   void initState() {
     _scaleController =
         AnimationController(value: 0.0, vsync: this, upperBound: 1.0);
-    widget.controller.headerMode?.addListener(() {
-      if (widget.controller.headerStatus == RefreshStatus.idle) {
-        _scaleController.value = 0.0;
-      } else if (widget.controller.headerStatus == RefreshStatus.refreshing) {
-        _scaleController.value = 1.0;
-      }
-    });
+    widget.controller.headerMode?.addListener(_headerModeListener);
     if (widget.scrollController != null) {
-      widget.scrollController?.addListener(_listener);
+      widget.scrollController?.addListener(_scrollerListener);
     }
     super.initState();
   }
 
-  _listener() {
+  _headerModeListener() {
+    if (widget.controller.headerStatus == RefreshStatus.idle) {
+      _scaleController.value = 0.0;
+    } else if (widget.controller.headerStatus == RefreshStatus.refreshing) {
+      _scaleController.value = 1.0;
+    }
+  }
+
+  _scrollerListener() {
     double offset = widget.scrollController?.offset ?? 0;
     _onOffsetChange(offset < 0, offset.abs());
   }
 
   @override
   void dispose() {
-    widget.scrollController?.removeListener(_listener);
+    widget.scrollController?.removeListener(_scrollerListener);
+    widget.controller.headerMode?.removeListener(_headerModeListener);
     _scaleController.dispose();
     super.dispose();
   }
